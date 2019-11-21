@@ -2,7 +2,7 @@
 
 #### Step 1: Download of Code::Blocks (latest) and install it. 
 
-#### Step 2: Now, download [winBGIm](https://github.com/almasud/Racing_Car/tree/master/WinBGIm_GCC47.rar) graphics library
+#### Step 2: Now, download [winBGIm](https://raw.githubusercontent.com/almasud/Racing_Car/master/WinBGIm_GCC47.rar) graphics library
 
 #### Step 3: Extract the file and you'll get these files:
 ```
