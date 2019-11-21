@@ -1,15 +1,20 @@
 #include<stdio.h>
 #include<graphics.h>
+#define carX1 300
+#define carX2 340
+#define carY1 385
+#define carY2 455
+#define enemyCarWidth 20
 
 void CreateNMoveEnemyCar(int x, int y, int moveFactor, colors body, colors head)
 {
     setcolor(BLACK);
-    rectangle(x, y+moveFactor, x+20, -30+y+moveFactor);
+    rectangle(x, y+moveFactor, x+enemyCarWidth, -30+y+moveFactor);
     setfillstyle(SOLID_FILL, body);
     floodfill(x+1, -30+y+moveFactor+1, BLACK);
 
     setcolor(BLACK);
-    rectangle(x+5, y+moveFactor, x+15, 5+y+moveFactor);
+    rectangle(x+5, y+moveFactor, x+(enemyCarWidth-5), 5+y+moveFactor);
     setfillstyle(SOLID_FILL, head);
     floodfill(x+6, 5+y+moveFactor-1, BLACK);
 
@@ -19,16 +24,20 @@ int main()
 {
     int gd = DETECT, gm;
     initgraph(&gd, &gm, "c:\\tc\\bgi");
-    int page = 0, roadY =- 300;
+
+    int roadX1 = 200, roadX2 = 400, roadY1 = -1, roadY2 = 500;
+    int roadLineY =- 300;
+
     int carX = 0, carSpeed = 5;
     int enemyNormal = 0, enemyFast = 0, enemySlow = 0;
+
     int point = 0, life = 3;
     char pointBuffer[10] = {'0'};
 
     while(1)
     {
-        setactivepage(page);
-        setvisualpage(1-page);
+        setactivepage(0);
+        setvisualpage(1);
         cleardevice();
 
         ///For background
@@ -39,51 +48,53 @@ int main()
 
         ///For road
         setcolor(WHITE);
-        rectangle(200, -1, 400, 500);
+        rectangle(roadX1, roadY1, roadX2, roadY2);
         setfillstyle(SOLID_FILL, DARKGRAY);  /// Sets the current fill pattern and fill color
-        floodfill(201, 0, WHITE);  ///Fill an enclosed area
+        floodfill(roadX1+1, roadY1+1, WHITE);  ///Fill an enclosed area
 
         ///Lines in road
         for(int i=0; i<450; i+=105)
         {
-            rectangle(290, 10+i+roadY, 310, 50+i+roadY);
+            rectangle(roadX1+90, 10+i+roadLineY, roadX2-90, 50+i+roadLineY);
             setfillstyle(SOLID_FILL, WHITE);
-            floodfill(291, 11+i+roadY, WHITE);
+            floodfill(291, 11+i+roadLineY, WHITE);
         }
 
         /// For repeat road lines
-        roadY += 15;
-        if(roadY > 500)
-            roadY = - 500;
+        roadLineY += 15;
+        if(roadLineY > 500)
+            roadLineY = - 500;
 
         ///For life and points label
-        settextstyle(BOLD_FONT, 0 , 2);
-        outtextxy(10,10,"LIFE:");
-        outtextxy(10,40,"POINTS:");
+        settextstyle(BOLD_FONT, 0, 2);
+        outtextxy(10, 10,"LIFE:");
+        outtextxy(10, 40,"POINTS:");
 
         ///Drawing circle for life
-        setfillstyle(SOLID_FILL, WHITE);
+        setcolor(WHITE);
+        setfillstyle(SOLID_FILL, RED);
         switch(life)
         {
         case 0:
+            ///Exit when life is no longer
             delay(3000);
             exit(0);
         case 1:
-            circle(90,20,6);
+            circle(90, 20, 6);
             floodfill(91, 21, WHITE);
             break;
         case 2:
-            circle(90,20,6);
+            circle(90, 20, 6);
             floodfill(91, 21, WHITE);
-            circle(110,20,6);
+            circle(110, 20, 6);
             floodfill(111, 21, WHITE);
             break;
         case 3:
-            circle(90,20,6);
+            circle(90, 20, 6);
             floodfill(91, 21, WHITE);
-            circle(110,20,6);
+            circle(110, 20, 6);
             floodfill(111, 21, WHITE);
-            circle(130,20,6);
+            circle(130, 20, 6);
             floodfill(131, 21, WHITE);
             break;
         }
@@ -94,31 +105,30 @@ int main()
         ///Body of car
         setcolor(BLACK);
         setfillstyle(SOLID_FILL, RED);
-        rectangle(300+carX, 400, 340+carX, 460);
-        floodfill(301+carX, 401, BLACK);
+        rectangle(carX1+carX, carY1+15, carX2+carX, carY2+5);
+        floodfill(301+carX, carY1+16, BLACK);
 
         setfillstyle(SOLID_FILL, GREEN);
-        rectangle(305+carX, 405, 335+carX, 455);
-        floodfill(306+carX, 406, BLACK);
+        rectangle(carX1+5+carX, carY1+20, (carX2-5)+carX, carY2);
+        floodfill(306+carX, carY1+21, BLACK);
 
         ///Front of car
         setfillstyle(SOLID_FILL, BROWN);
-        rectangle(305+carX, 385, 335+carX, 400);
-        floodfill(306+carX, 386, BLACK);
+        rectangle(carX1+5+carX, carY1, (carX2-5)+carX, carY2-55);
+        floodfill(306+carX, carY1+1, BLACK);
 
         ///Car wheels
         setfillstyle(SOLID_FILL, BLACK);
-        pieslice(305+carX, 392, 90, 270, 6);
-        pieslice(337+carX, 392, 270, 90, 5);
-
+        pieslice(carX1+5+carX, carY1+7, 90, 270, 6);
+        pieslice(carX1+37+carX, carY1+7, 270, 90, 5);
 
         ///Enemy car 1
         CreateNMoveEnemyCar(350, -50, enemyFast, RED, GREEN);
-        if (enemyFast >= (385 + 50))
+        if (enemyFast >= (carY1 + 50))
         {
-            switch(carX + 300)
+            switch(carX + carX1)
             {
-            case (350 - 40) ... (350 + 20):
+            case (350 - (carX2-carX1)) ... (350 + enemyCarWidth):
                 life--;
                 delay(2000);
                 enemyFast = - 10;
@@ -126,9 +136,11 @@ int main()
         }
         ///Enemy car 2
         CreateNMoveEnemyCar(300, -100, enemyNormal, BLUE, BROWN);
-        if (enemyNormal >= (385 + 100)) {
-            switch(carX + 300) {
-            case (300 - 40) ... (300 + 20):
+        if (enemyNormal >= (carY1 + 100))
+        {
+            switch(carX + carX1)
+            {
+            case (300 - (carX2-carX1)) ... (300 + enemyCarWidth):
                 life--;
                 delay(2000);
                 enemyNormal = - 10;
@@ -136,9 +148,11 @@ int main()
         }
         ///Enemy car 3
         CreateNMoveEnemyCar(250, -30, enemySlow, YELLOW, CYAN);
-        if (enemySlow >= (385 + 30)) {
-            switch(carX + 300) {
-            case (250 - 40) ... (250 + 20):
+        if (enemySlow >= (carY1 + 30))
+        {
+            switch(carX + carX1)
+            {
+            case (250 - (carX2-carX1)) ... (250 + enemyCarWidth):
                 life--;
                 delay(2000);
                 enemySlow = - 10;
@@ -148,7 +162,6 @@ int main()
         enemyNormal += 5;
         enemyFast += 8;
         enemySlow += 3;
-
 
         /// For repeat enemy cars
         if (enemyNormal > getmaxy() + 50)
@@ -174,21 +187,27 @@ int main()
 
         /// For car movement
         if(GetAsyncKeyState(VK_LEFT))
-            carX -= carSpeed;
+        {
+            if ((carX + carX1) >= roadX1)
+                carX -= carSpeed;
+        }
         else if(GetAsyncKeyState(VK_RIGHT))
-            carX += carSpeed;
+        {
+            if ((carX + carX1 + (carX2-carX1)) <= roadX2)
+                carX += carSpeed;
+        }
 
         ///Display game over when life is no longer
         if (life == 0)
         {
             setcolor(WHITE);
             settextstyle(BOLD_FONT, 0, 5);
-            outtextxy(190, 220, "Game Over");
+            outtextxy(roadX1-10, roadY2-280, "Game Over");
         }
 
-//        page = 1 - page;
         delay(100);
     }
 
     getch();
+    closegraph();
 }
