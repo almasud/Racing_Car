@@ -2,18 +2,18 @@
 
 #### Step 1: Download of Code::Blocks (latest) and install it. 
 
-#### Step 2: Now, download [winBGIm](https://raw.githubusercontent.com/almasud/Racing_Car/master/WinBGIm_GCC47.rar) graphics library
+#### Step 2: Now, download [winBGIm](https://raw.githubusercontent.com/almasud/Racing_Car/master/WinBGIm_Graphics_Libraries.rar) graphics library
 
 #### Step 3: Extract the file and you'll get these files:
 ```
 graphics.h
 winbgim.h
-linker_code.txt
 libbgi.a
 ```
-#### Step 4: Copy and paste ```graphics.h``` and ```winbgim.h``` files into the include folder of your compiler directory.
+
 If you have Code::Blocks installed in C drive of your computer, go through:
-Drive ```C > Program files or Program files(x86) > CodeBlocks > MinGW > include```
+Drive ```C > Program files or Program files(x86) > CodeBlocks > MinGW```
+#### Step 4: Copy and paste ```graphics.h``` and ```winbgim.h``` files into the ```include``` folder of your compiler directory.
 
 #### Step 5: Copy and paste ```libbgi.a``` to the ```lib``` folder of your compiler directory. Same path as above.
 
