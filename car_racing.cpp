@@ -22,6 +22,8 @@ int main()
     int page = 0, roadY =- 300;
     int carX = 0, carSpeed = 5;
     int enemyNormal = 0, enemyFast = 0, enemySlow = 0;
+    int point = 0, life = 3;
+    char pointBuffer[10] = {'0'};
 
     while(1)
     {
@@ -33,13 +35,13 @@ int main()
         setcolor(CYAN);
         rectangle(0, 0, 1000, 1000);
         setfillstyle(SOLID_FILL, CYAN);
-        floodfill(1,1, CYAN);
+        floodfill(1, 1, CYAN);
 
         ///For road
         setcolor(WHITE);
         rectangle(200, -1, 400, 500);
         setfillstyle(SOLID_FILL, DARKGRAY);  /// Sets the current fill pattern and fill color
-        floodfill(201,0, WHITE);  ///Fill an enclosed area
+        floodfill(201, 0, WHITE);  ///Fill an enclosed area
 
         ///Lines in road
         for(int i=0; i<450; i+=105)
@@ -54,21 +56,40 @@ int main()
         if(roadY > 500)
             roadY = - 500;
 
-
-        ///for life and points
+        ///For life and points label
         settextstyle(BOLD_FONT, 0 , 2);
         outtextxy(10,10,"LIFE:");
         outtextxy(10,40,"POINTS:");
-        ///drawing circle for life
-        setfillstyle(SOLID_FILL, WHITE);
-        circle(90,20,6);
-        floodfill(91,21, WHITE);
-        circle(110,20,6);
-        floodfill(111,21, WHITE);
-        circle(130,20,6);
-        floodfill(131,21, WHITE);
 
-        outtextxy(100,40,"0");
+        ///Drawing circle for life
+        setfillstyle(SOLID_FILL, WHITE);
+        switch(life)
+        {
+        case 0:
+            delay(3000);
+            exit(0);
+        case 1:
+            circle(90,20,6);
+            floodfill(91, 21, WHITE);
+            break;
+        case 2:
+            circle(90,20,6);
+            floodfill(91, 21, WHITE);
+            circle(110,20,6);
+            floodfill(111, 21, WHITE);
+            break;
+        case 3:
+            circle(90,20,6);
+            floodfill(91, 21, WHITE);
+            circle(110,20,6);
+            floodfill(111, 21, WHITE);
+            circle(130,20,6);
+            floodfill(131, 21, WHITE);
+            break;
+        }
+
+        ///Display points
+        outtextxy(100, 40, pointBuffer);
 
         ///Body of car
         setcolor(BLACK);
@@ -93,12 +114,14 @@ int main()
 
         ///Enemy car 1
         CreateNMoveEnemyCar(350, -50, enemyFast, RED, GREEN);
-        if (enemyFast >= (385 + 50)) {
-            switch(carX + 300) {
+        if (enemyFast >= (385 + 50))
+        {
+            switch(carX + 300)
+            {
             case (350 - 40) ... (350 + 20):
-                printf("GAME OVER");
+                life--;
                 delay(2000);
-                exit(1);
+                enemyFast = - 10;
             }
         }
         ///Enemy car 2
@@ -106,9 +129,9 @@ int main()
         if (enemyNormal >= (385 + 100)) {
             switch(carX + 300) {
             case (300 - 40) ... (300 + 20):
-                printf("GAME OVER");
+                life--;
                 delay(2000);
-                exit(1);
+                enemyNormal = - 10;
             }
         }
         ///Enemy car 3
@@ -116,9 +139,9 @@ int main()
         if (enemySlow >= (385 + 30)) {
             switch(carX + 300) {
             case (250 - 40) ... (250 + 20):
-                printf("GAME OVER");
+                life--;
                 delay(2000);
-                exit(1);
+                enemySlow = - 10;
             }
         }
 
@@ -129,13 +152,25 @@ int main()
 
         /// For repeat enemy cars
         if (enemyNormal > getmaxy() + 50)
+        {
+            point += 3;
+            itoa(point, pointBuffer, 10);
             enemyNormal = - 50;
+        }
 
         if (enemyFast > getmaxy() + 100)
+        {
+            point += 5;
+            itoa(point, pointBuffer, 10);
             enemyFast = - 100;
+        }
 
         if (enemySlow > getmaxy() + 30)
+        {
+            point += 1;
+            itoa(point, pointBuffer, 10);
             enemySlow = - 30;
+        }
 
         /// For car movement
         if(GetAsyncKeyState(VK_LEFT))
@@ -143,8 +178,16 @@ int main()
         else if(GetAsyncKeyState(VK_RIGHT))
             carX += carSpeed;
 
+        ///Display game over when life is no longer
+        if (life == 0)
+        {
+            setcolor(WHITE);
+            settextstyle(BOLD_FONT, 0, 5);
+            outtextxy(190, 220, "Game Over");
+        }
+
 //        page = 1 - page;
-        delay(50);
+        delay(100);
     }
 
     getch();
