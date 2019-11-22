@@ -1,5 +1,5 @@
-#include<stdio.h>
 #include<graphics.h>
+
 #define carX1 300
 #define carX2 340
 #define carY1 385
@@ -208,6 +208,5 @@ int main()
         delay(100);
     }
 
-    getch();
     closegraph();
 }
