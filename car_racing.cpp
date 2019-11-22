@@ -41,10 +41,10 @@ int main()
         cleardevice();
 
         ///For background
-        setcolor(CYAN);
+        setcolor(GREEN);
         rectangle(0, 0, 1000, 1000);
-        setfillstyle(SOLID_FILL, CYAN);
-        floodfill(1, 1, CYAN);
+        setfillstyle(SOLID_FILL, GREEN);
+        floodfill(1, 1, GREEN);
 
         ///For road
         setcolor(WHITE);
@@ -104,16 +104,16 @@ int main()
 
         ///Body of car
         setcolor(BLACK);
-        setfillstyle(SOLID_FILL, RED);
+        setfillstyle(SOLID_FILL, BROWN);
         rectangle(carX1+carX, carY1+15, carX2+carX, carY2+5);
         floodfill(301+carX, carY1+16, BLACK);
 
-        setfillstyle(SOLID_FILL, GREEN);
+        setfillstyle(SOLID_FILL, RED);
         rectangle(carX1+5+carX, carY1+20, (carX2-5)+carX, carY2);
         floodfill(306+carX, carY1+21, BLACK);
 
         ///Front of car
-        setfillstyle(SOLID_FILL, BROWN);
+        setfillstyle(SOLID_FILL, CYAN);
         rectangle(carX1+5+carX, carY1, (carX2-5)+carX, carY2-55);
         floodfill(306+carX, carY1+1, BLACK);
 
@@ -123,15 +123,15 @@ int main()
         pieslice(carX1+37+carX, carY1+7, 270, 90, 5);
 
         ///Enemy car 1
-        CreateNMoveEnemyCar(350, -50, enemyFast, RED, GREEN);
-        if (enemyFast >= (carY1 + 50))
+        CreateNMoveEnemyCar(350, -50, enemySlow, YELLOW, GREEN);
+        if (enemySlow >= (carY1 + 50))
         {
             switch(carX + carX1)
             {
             case (350 - (carX2-carX1)) ... (350 + enemyCarWidth):
                 life--;
                 delay(2000);
-                enemyFast = - 10;
+                enemySlow = - 10;
             }
         }
         ///Enemy car 2
@@ -147,42 +147,42 @@ int main()
             }
         }
         ///Enemy car 3
-        CreateNMoveEnemyCar(250, -30, enemySlow, YELLOW, CYAN);
-        if (enemySlow >= (carY1 + 30))
+        CreateNMoveEnemyCar(250, -30, enemyFast, RED, CYAN);
+        if (enemyFast >= (carY1 + 30))
         {
             switch(carX + carX1)
             {
             case (250 - (carX2-carX1)) ... (250 + enemyCarWidth):
                 life--;
                 delay(2000);
-                enemySlow = - 10;
+                enemyFast = - 10;
             }
         }
 
+        enemySlow += 3;
         enemyNormal += 5;
         enemyFast += 8;
-        enemySlow += 3;
 
         /// For repeat enemy cars
         if (enemyNormal > getmaxy() + 50)
         {
             point += 3;
             itoa(point, pointBuffer, 10);
-            enemyNormal = - 50;
+            enemyNormal = - 100;
         }
 
         if (enemyFast > getmaxy() + 100)
         {
             point += 5;
             itoa(point, pointBuffer, 10);
-            enemyFast = - 100;
+            enemyFast = - 30;
         }
 
         if (enemySlow > getmaxy() + 30)
         {
             point += 1;
             itoa(point, pointBuffer, 10);
-            enemySlow = - 30;
+            enemySlow = - 50;
         }
 
         /// For car movement
