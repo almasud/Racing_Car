@@ -38,7 +38,7 @@ Drive ```C > Program files or Program files(x86) > CodeBlocks > MinGW```
 #### Step 9: Make sure you got Steps 7 and 8 right!
 
 ### Watch output on YouTube:
-[![IMAGE ALT TEXT HERE](https://i9.ytimg.com/vi/jOWOaJvT8As/mq1.jpg?sqp=CNSc6O4F&rs=AOn4CLDW7K6X8z2s9ZsTXhYnzXknHpTwnw)](https://youtu.be/jOWOaJvT8As)
+[![Racing Car Image](https://i9.ytimg.com/vi/jOWOaJvT8As/mq1.jpg?sqp=CNSc6O4F&rs=AOn4CLDW7K6X8z2s9ZsTXhYnzXknHpTwnw)](https://youtu.be/jOWOaJvT8As)
 
 
 ##### Thank you all and happy codding... 
